@@ -16,7 +16,7 @@
 // - Account Creation and Management:
 //     + Allow the user, via prompts, to choose between signing up, logging in, or changing the password.
 //     + If the user only writes "exit," they exit the current process, and the choice question is asked again.
-let answer = prompt("Choose one option below:\n1-login\n2-sign up\n3-change password\n4-exit")
+
 let database = []
 class user {
     constructor(name,email,age,password){
@@ -36,6 +36,15 @@ class user {
             this.password = password
             database.push(this)
     }
+    login(data){
+        let email = prompt("enter your email")
+        let password = prompt("enter your password")
+        if (email == data[0].email && password == data[0].password){
+            alert("you are logged in")
+        } else {
+            alert("wrong email or password")
+        }
+    }
 }
 
 let amine = new user
@@ -44,17 +53,13 @@ while (true) {
 
     if (answer == 2) {
         amine.signUp()
-        break
-    } else {
+        break}
+        else {
         alert("sign up first")
     }
 }
 
-
-
-
-
-console.log(database);
+amine.login(database)
 
 //         * If the user chooses to sign up, here are the details they must enter:
 //             # Name (Full):
