@@ -26,15 +26,100 @@ class user {
         this.password = password
     }
     signUp(){
+        while(true){
             let name = prompt("enter your full name:")
+            let trimedName = name.trimStart().trimEnd()
+            let capitalFirstLetter = trimedName.replace(/\b\w/g, char => char.toUpperCase());
+            function hasSpecialOrNumber(str) {
+            const regex = /[^a-zA-Z0-9\s]/;
+            return regex.test(str);
+            }
+            if (capitalFirstLetter.replace(/\s+/g, '').length < 5){
+                alert("the name must be 5 charachters at least")
+            } else if (hasSpecialOrNumber(capitalFirstLetter) == true){
+                alert("name must not conatain numbers or special charachters")
+            } else {
+                this.name = capitalFirstLetter
+                break
+            }
+        }
+        while(true){
             let email = prompt("enter your email:")
+            let trimedEmail = email.trimStart().trimEnd()
+            let emailtoLowerCase = trimedEmail.toLowerCase()
+            function hasSpaceInMiddle(str) {
+            return str.trim().includes(' ');
+            }
+            function hasExactlyOneAtSymbol(str) {
+            const matches = str.match(/@/g);
+            return matches !== null && matches.length === 1;
+            }
+            for (let i = 0 ; i < database.length ; i++){
+                if(database[i].email == emailtoLowerCase){
+                    var foundMatch = emailtoLowerCase
+                    break
+                }
+            }
+            if (hasSpaceInMiddle(emailtoLowerCase) == true){
+                alert("the email must not contain spaces in the middle")
+            }
+            else if (hasExactlyOneAtSymbol(emailtoLowerCase) == false){
+                alert("the email must have at least one '@'")
+            }else if(emailtoLowerCase.replace(/\s+/g, '').length < 10){
+                alert("email must contain at least 10 charachters")
+            }else if (foundMatch){
+                "this email already exists please choose another"
+            }else{
+                this.email = emailtoLowerCase
+                break
+            }
+        }
+        while (true){
             let age = prompt("enter your age:")
+            let trimedAge = age.trimStart().trimEnd()
+            const containsOnlyNumbers = (str) => {
+            return /^\d+$/.test(str);
+            }
+            function hasSpaceInMiddle(str) {
+            return str.trim().includes(' ');
+            }
+            if (trimedAge.replace(/\s+/g, '').length == 0){
+                alert("the input can't be empty")
+            }
+            else if (containsOnlyNumbers(trimedAge) == false){
+                alert("you must enter only numbers as your age")
+            }
+            else if (hasSpaceInMiddle(trimedAge) == true){
+                alert("the age can't contain space in the middle")
+            } else if (trimedAge.replace(/\s+/g, '').length >= 3){
+                alert("enter your true age")
+            } else {
+                this.age = trimedAge
+                break
+            }
+        }
+        while (true){
             let password = prompt("choose your password:")
-            this.name = name
-            this.email = email
-            this.age = age
-            this.password = password
+            function hasSpaceInMiddle(str) {
+            return str.trim().includes(' ');
+            }
+            function containsSpecialChar(str) {
+            const specialChars = /[^\w\s]/;
+            return specialChars.test(str);
+            }
+            if (hasSpaceInMiddle(password) == true){
+                alert("password can't have spaces in the middle")
+            } else if (containsSpecialChar(password) == false){
+                alert("password must conatain at least one special charachter")
+            } else if (password.length < 7) {
+                alert("password must conatain at least 7 charachters")
+            } else {
+                this.password = password
+                break
+            }
+        }
             database.push(this)
+            console.log(database);
     }
     login(data){
         let email = prompt("enter your email")
