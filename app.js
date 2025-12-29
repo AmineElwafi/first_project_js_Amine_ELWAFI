@@ -44,6 +44,7 @@ class user {
             }
         }
         while(true){
+            let foundMatch = false
             let email = prompt("enter your email:")
             let trimedEmail = email.trimStart().trimEnd()
             let emailtoLowerCase = trimedEmail.toLowerCase()
@@ -56,20 +57,19 @@ class user {
             }
             for (let i = 0 ; i < database.length ; i++){
                 if(database[i].email == emailtoLowerCase){
-                    var foundMatch = emailtoLowerCase
-                    break
+                    foundMatch = emailtoLowerCase
                 }
             }
             if (hasSpaceInMiddle(emailtoLowerCase) == true){
                 alert("the email must not contain spaces in the middle")
-            }
-            else if (hasExactlyOneAtSymbol(emailtoLowerCase) == false){
+            } else if (hasExactlyOneAtSymbol(emailtoLowerCase) == false){
                 alert("the email must have at least one '@'")
             }else if(emailtoLowerCase.replace(/\s+/g, '').length < 10){
                 alert("email must contain at least 10 charachters")
-            }else if (foundMatch){
-                "this email already exists please choose another"
-            }else{
+            } else if (foundMatch){
+                        alert("this email already exists please choose another")
+            }
+            else {
                 this.email = emailtoLowerCase
                 break
             }
@@ -114,8 +114,14 @@ class user {
             } else if (password.length < 7) {
                 alert("password must conatain at least 7 charachters")
             } else {
-                this.password = password
+                let checkPass = prompt("re-enter your password")
+                if (checkPass == password){
+                    this.password = password
+                    alert ("sign up successfully")
                 break
+                } else {
+                    alert("password is not compatible")
+                }
             }
         }
             database.push(this)
@@ -124,10 +130,29 @@ class user {
     login(data){
         let email = prompt("enter your email")
         let password = prompt("enter your password")
-        if (email == data[0].email && password == data[0].password){
-            alert("you are logged in")
-        } else {
-            alert("wrong email or password")
+        for (let i = 0; i < database.length ; i++){
+            if (email == data[i].email && password == data[i].password){
+                alert("you are logged in")
+            } else {
+                alert("wrong email or password")
+            }
+        }
+    }
+    changePassword (data){
+        let email = prompt("enter your email to change password")
+        for (let i = 0; i < data.length ; i++){
+            if (data[i].email == email){
+                let oldPassword = prompt("enter your old password")
+                if (oldPassword == data[i].password){
+                    let newPassword = prompt("enter your new password")
+                    data[i].password = newPassword
+                    alert("password has been changed")
+                }else{
+                    alert ("old password is not correct")
+                }
+            } else {
+                alert("there no such email")
+            }
         }
     }
 }
@@ -135,16 +160,22 @@ class user {
 let amine = new user
 while (true) {
     let answer = prompt("Choose one option below:\n1-login\n2-sign up\n3-change password\n4-exit")
-
     if (answer == 2) {
         amine.signUp()
-        break}
-        else {
-        alert("sign up first")
+        }
+        else if (answer == 1) {
+        amine.login(database)
+    } else if (answer == 3){
+        amine.changePassword(database)
+    } else if (answer == 4){
+        break
+    } else {
+        alert("please choose a valid option")
     }
 }
 
-amine.login(database)
+
+
 
 //         * If the user chooses to sign up, here are the details they must enter:
 //             # Name (Full):
